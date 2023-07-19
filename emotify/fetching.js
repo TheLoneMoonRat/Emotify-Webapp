@@ -37,10 +37,11 @@ async function createPlaylist (token, userId) {
     });
 }
 
-async function getPlaylistId (token, user_id) {
-    const result = await fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`, {
+async function getPlaylistId (token, userId) {
+    const result = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
         method: "GET", headers: { Authorization: `Bearer ${token}` }
     });
 
-    return await result.json();
+    const data = await result.json();
+    return data.items;
 }

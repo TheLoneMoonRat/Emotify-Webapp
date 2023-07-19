@@ -5,18 +5,27 @@ const code = params.get("code");
 if (!code) {
     redirectToAuthCodeFlow(clientId);
 } else {
-    const accessToken = await getAccessToken(clientId, code);
-    const profile = await fetchProfile(accessToken);
-    const songList = await fetchTopSongs(accessToken);
-    const likedSongs = await fetchLikedSongs(accessToken);
-    const user_id = populateUI(profile);
-    createPlaylist(accessToken, user_id);
-    const playlists = getPlaylistId(accessToken, user_id);
-    // document.getElementById("f16").innerText = playlists.items[0].id;
-    // const addList = ["spotify:track:1OFJ8o35oCIcaWjYq0bHOS"];
-    // populatePlaylist(playlists[0].id, addList); 
-    populateTopSongs(songList.items);
-    populateLikedSongs(likedSongs.items);
+    (async () => {
+        try {
+            const accessToken = await getAccessToken(clientId, code);
+            const profile = await fetchProfile(accessToken);
+            const songList = await fetchTopSongs(accessToken);
+            const likedSongs = await fetchLikedSongs(accessToken);
+            const user_id = populateUI(profile);
+            await createPlaylist(accessToken, user_id);
+            const extraction = await getPlaylistId(accessToken, user_id); // Await the function call
+            const holder = extraction;
+            const hold = holder[holder.length - 1].id;
+            // findID (hold);
+            document.getElementById("f16").innerText = hold; // Display the playlist ID
+            // const addList = ["spotify:track:1OFJ8o35oCIcaWjYq0bHOS"];
+            // populatePlaylist(hold, "spotify:track:1OFJ8o35oCIcaWjYq0bHOS"); 
+            populateTopSongs(songList.items);
+            populateLikedSongs(likedSongs.items);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    })();
 }
 
 export async function redirectToAuthCodeFlow(clientId) {

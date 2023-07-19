@@ -47,19 +47,19 @@ function populateLikedSongs (items) {
 }
 
 function populatePlaylist (playlist_id, addList) {
-    for (let j = 0; j < addList.length; j++) {
+    // for (let j = 0; j < addList.length; j++) {
         fetch(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, {
             method: "POST", 
             body: JSON.stringify({
                 uris: [
-                    addList[j]
+                    addList
                 ],
-                position: j
+                position: 0
             }),     
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
             }
         });
-    }
+    // }
 }
