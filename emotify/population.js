@@ -17,49 +17,55 @@ function populateUI(profile) {
 }
 
 function populateTopSongs (items) {
+    const track_ids = [];
     const track_names = [];
     const popularities = [];
+    const iterations = Math.min(100, items.length);
     var finalPop = 0;
-    for (let j = 0; j < 15; j++) {
+
+    for (let j = 0; j < iterations; j++) {
         track_names.push(items[j].name);
         popularities.push(items[j].popularity);
+        track_ids.push(items[j].uri);
         finalPop = finalPop + parseInt(items[j].popularity);
     }
     for (let i = 0; i < 15; i++) {
         document.getElementById(`f${i + 1}`).innerText = track_names[i] + " Popularity: " + popularities[i];
     }
     document.getElementById("genre").innerText = Math.round(finalPop / items.length);
+    return track_ids;
 }
 
 function populateLikedSongs (items) {
+    const track_ids = [];
     const track_names = [];
     const popularities = [];
     var finalPop = 0;
-    for (let j = 0; j < 15; j++) {
+    const iterations = Math.min(100, items.length);
+
+    for (let j = 0; j < iterations; j++) {
         track_names.push(items[j].track.name);
         popularities.push(items[j].track.popularity);
+        track_ids.push(items[j].track.uri);
         finalPop = finalPop + parseInt(items[j].track.popularity);
     }
     for (let i = 0; i < 15; i++) {
         document.getElementById(`f${i + 1}`).innerText = track_names[i] + " Popularity: " + popularities[i];
     }
     document.getElementById("genre").innerText = Math.round(finalPop / items.length); 
+    return track_ids;
 }
 
-function populatePlaylist (playlist_id, addList) {
-    // for (let j = 0; j < addList.length; j++) {
-        fetch(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, {
-            method: "POST", 
-            body: JSON.stringify({
-                uris: [
-                    addList
-                ],
-                position: 0
-            }),     
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        });
-    // }
+function populatePlaylist (token, playlist_id, addList) {
+    fetch(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, {
+        method: "POST", 
+        body: JSON.stringify({
+            uris: addList,
+            position: 0
+        }),     
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+        }
+    });
 }

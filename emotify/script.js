@@ -12,16 +12,11 @@ if (!code) {
             const songList = await fetchTopSongs(accessToken);
             const likedSongs = await fetchLikedSongs(accessToken);
             const user_id = populateUI(profile);
-            await createPlaylist(accessToken, user_id);
-            const extraction = await getPlaylistId(accessToken, user_id); // Await the function call
-            const holder = extraction;
-            const hold = holder[holder.length - 1].id;
-            // findID (hold);
-            document.getElementById("f16").innerText = hold; // Display the playlist ID
-            // const addList = ["spotify:track:1OFJ8o35oCIcaWjYq0bHOS"];
-            // populatePlaylist(hold, "spotify:track:1OFJ8o35oCIcaWjYq0bHOS"); 
-            populateTopSongs(songList.items);
-            populateLikedSongs(likedSongs.items);
+            const createdPlaylistId = await createPlaylist(accessToken, user_id);
+            document.getElementById("f18").innerText = createdPlaylistId; // Display the playlist ID
+            const top_liked_ids = populateLikedSongs(likedSongs.items);
+            const top_song_ids = populateTopSongs(songList.items);
+            populatePlaylist(accessToken, createdPlaylistId, top_liked_ids); 
         } catch (error) {
             console.error("Error:", error);
         }

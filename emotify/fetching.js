@@ -22,19 +22,22 @@ async function fetchLikedSongs(token) {
     return await result.json();
 }
 
-async function createPlaylist (token, userId) {
-    fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-        method: "POST", 
+async function createPlaylist(token, userId) {
+    const response = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+        method: "POST",
         body: JSON.stringify({
-            name: "NathanLog",
+            name: "My Favourites",
             description: "coolio bro",
             public: false
-        }),     
+        }),
         headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json"
         }
     });
+
+    const data = await response.json();
+    return data.id; // Return the created playlist ID
 }
 
 async function getPlaylistId (token, userId) {
