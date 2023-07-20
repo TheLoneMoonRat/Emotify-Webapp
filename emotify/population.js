@@ -17,7 +17,9 @@ function populateUI(profile) {
 }
 
 function populateTopSongs (items) {
+    const id_uri =[];
     const track_ids = [];
+    const track_uri = [];
     const track_names = [];
     const popularities = [];
     const iterations = Math.min(100, items.length);
@@ -26,18 +28,23 @@ function populateTopSongs (items) {
     for (let j = 0; j < iterations; j++) {
         track_names.push(items[j].name);
         popularities.push(items[j].popularity);
-        track_ids.push(items[j].uri);
+        track_ids.push(items[j].id);
+        track_uri.push(items[j].uri);
         finalPop = finalPop + parseInt(items[j].popularity);
     }
     for (let i = 0; i < 15; i++) {
         document.getElementById(`f${i + 1}`).innerText = track_names[i] + " Popularity: " + popularities[i];
     }
     document.getElementById("genre").innerText = Math.round(finalPop / items.length);
-    return track_ids;
+    id_uri.push(track_ids);
+    id_uri.push(track_uri);
+    return id_uri;
 }
 
 function populateLikedSongs (items) {
+    const id_uri =[];
     const track_ids = [];
+    const track_uri = [];
     const track_names = [];
     const popularities = [];
     var finalPop = 0;
@@ -46,17 +53,21 @@ function populateLikedSongs (items) {
     for (let j = 0; j < iterations; j++) {
         track_names.push(items[j].track.name);
         popularities.push(items[j].track.popularity);
-        track_ids.push(items[j].track.uri);
+        track_ids.push(items[j].track.id);
+        track_uri.push(items[j].track.uri);
         finalPop = finalPop + parseInt(items[j].track.popularity);
     }
     for (let i = 0; i < 15; i++) {
         document.getElementById(`f${i + 1}`).innerText = track_names[i] + " Popularity: " + popularities[i];
     }
     document.getElementById("genre").innerText = Math.round(finalPop / items.length); 
-    return track_ids;
+    id_uri.push(track_ids);
+    id_uri.push(track_uri);
+    return id_uri;
 }
 
 function populatePlaylist (token, playlist_id, addList) {
+
     fetch(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, {
         method: "POST", 
         body: JSON.stringify({

@@ -12,11 +12,16 @@ if (!code) {
             const songList = await fetchTopSongs(accessToken);
             const likedSongs = await fetchLikedSongs(accessToken);
             const user_id = populateUI(profile);
-            const createdPlaylistId = await createPlaylist(accessToken, user_id);
-            document.getElementById("f18").innerText = createdPlaylistId; // Display the playlist ID
-            const top_liked_ids = populateLikedSongs(likedSongs.items);
-            const top_song_ids = populateTopSongs(songList.items);
-            populatePlaylist(accessToken, createdPlaylistId, top_liked_ids); 
+            const playlistIdTop = await createPlaylist(accessToken, user_id, "Top 50 Songs", "Your statistically most played songs");
+            const playlistIdLiked = await createPlaylist(accessToken, user_id, "50 Liked Songs", "50 of your liked songs");
+            const top_liked_id_uri = populateLikedSongs(likedSongs.items);
+            const top_song_id_uri = populateTopSongs(songList.items);
+            // const id_string = get_track_ids(top_song_id_uri[0]);
+            // document.getElementById("debug").innerText = id_string;
+            // const the_goods = await getFeatures(accessToken, id_string);
+            // const playlist_indexes = energyPlaylist(the_goods, top_song_ids);
+            populatePlaylist(accessToken, playlistIdTop, top_song_id_uri[1]);
+            populatePlaylist(accessToken, playlistIdLiked, top_liked_id_uri[1]); 
         } catch (error) {
             console.error("Error:", error);
         }
