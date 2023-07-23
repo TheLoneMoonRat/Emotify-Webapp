@@ -49,11 +49,32 @@ async function createPlaylist(token, userId, playlistName, playlistDescription) 
 //     return data.items;
 // }
 
-async function getFeatures (token, ids) {
-    const result = await fetch(`https://api.spotify.com/v1/audio_features?ids=${ids}`, {
-        method: "GET", headers: { Authorization: `Bearer ${token}` }
-    });
+// async function getFeatures (token, idse) {
+//     const result = await fetch(`https://api.spotify.com/v1/audio_features?ids=${idse}`, {
+//         method: "GET", headers: { Authorization: `Bearer ${token}` }
+//     });
 
-    const data = await result.json();
-    return data.audio_features;
+//     return await result.json();
+// }
+
+async function getFeatures(accessToken, trackIds) {
+    try {
+        const response = await fetch(`https://api.spotify.com/v1/audio-features?ids=${trackIds}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`API request failed with status ${response.status}`);
+        }
+
+        const data = await response.json();
+        const working = data.audio_features;
+        return working;
+    } catch (error) {
+        console.error("Error:", error);
+        return null; // Return an appropriate value when there's an error
+    }
 }

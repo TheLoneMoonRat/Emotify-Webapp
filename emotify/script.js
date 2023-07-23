@@ -10,18 +10,18 @@ if (!code) {
             const accessToken = await getAccessToken(clientId, code);
             const profile = await fetchProfile(accessToken);
             const songList = await fetchTopSongs(accessToken);
-            const likedSongs = await fetchLikedSongs(accessToken);
+            // const likedSongs = await fetchLikedSongs(accessToken);
             const user_id = populateUI(profile);
-            const playlistIdTop = await createPlaylist(accessToken, user_id, "Top 50 Songs", "Your statistically most played songs");
-            const playlistIdLiked = await createPlaylist(accessToken, user_id, "50 Liked Songs", "50 of your liked songs");
-            const top_liked_id_uri = populateLikedSongs(likedSongs.items);
+            const playlistIdEnergetic = await createPlaylist(accessToken, user_id, "Top Danceable Playlist", "All the danceable songs in your top 50");
+            // const playlistIdTop = await createPlaylist(accessToken, user_id, "Top 50 Songs", "Your statistically most played songs");
+            // const playlistIdLiked = await createPlaylist(accessToken, user_id, "50 Liked Songs", "50 of your liked songs");
+            // const top_liked_id_uri = populateLikedSongs(likedSongs.items);
             const top_song_id_uri = populateTopSongs(songList.items);
-            // const id_string = get_track_ids(top_song_id_uri[0]);
-            // document.getElementById("debug").innerText = id_string;
-            // const the_goods = await getFeatures(accessToken, id_string);
-            // const playlist_indexes = energyPlaylist(the_goods, top_song_ids);
-            populatePlaylist(accessToken, playlistIdTop, top_song_id_uri[1]);
-            populatePlaylist(accessToken, playlistIdLiked, top_liked_id_uri[1]); 
+            const id_string = get_track_ids(top_song_id_uri[0]);
+            const the_goods = await getFeatures(accessToken, id_string);
+            const playlist_indexes = dancePlaylist(the_goods, top_song_id_uri[1]);
+            // populatePlaylist(accessToken, playlistIdTop, top_song_id_uri[1]);
+            populatePlaylist(accessToken, playlistIdEnergetic, playlist_indexes); 
         } catch (error) {
             console.error("Error:", error);
         }
