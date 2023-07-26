@@ -1,3 +1,25 @@
+function choosePlaylist (type, itemOne, itemTwo) {
+    switch (type) {
+        case "energetic":
+            return (energyPlaylist(itemOne, itemTwo));
+        case "danceable":
+            return (dancePlaylist(itemOne, itemTwo));
+        case "acoustic":
+            return (acousticPlaylist(itemOne, itemTwo));
+        case "singeable":
+            return (singPlaylist(itemOne, itemTwo));
+        case "happy":
+            return (happyList(itemOne, itemTwo));
+        case "sad":
+            return (sadList(itemOne, itemTwo));
+        case "fast":
+            return (fastTempo(itemOne, itemTwo));
+        case "slow":
+            return (slowTempo(itemOne, itemTwo));
+        
+    }
+}
+
 function get_track_ids (trackList) {
     var track_ids = trackList[0];
     const iterations = Math.min(100, trackList.length);
