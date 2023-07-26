@@ -15,12 +15,12 @@ function DropDown () {
             <p>Please choose a playlist type</p>
             <select value = {selectedValue} onChange={handleChange}>
                 <option value="">--Please choose an option--</option>
-                <option value="danceable">Dance Playlist</option>
-                <option value="acoustic">Acoustic Playlist</option>
-                <option value="singeable">Singing Playlist</option>
-                <option value="happy">Happy Playlist</option>
-                <option value="sad">Sad Playlist</option>
-                <option value="instrumental">Study Playlist</option>
+                <option value="Danceable">Dance Playlist</option>
+                <option value="Acoustic">Acoustic Playlist</option>
+                <option value="Singeable">Singing Playlist</option>
+                <option value="Happy">Happy Playlist</option>
+                <option value="Sad">Sad Playlist</option>
+                <option value="Study">Study Playlist</option>
             </select>
         </div>
     );

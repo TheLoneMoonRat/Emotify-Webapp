@@ -37,25 +37,17 @@ async function createPlaylist(token, userId, playlistName, playlistDescription) 
     });
 
     const data = await response.json();
-    return data.id; // Return the created playlist ID
+    return data.id;
 }
 
-// async function getPlaylistId (token, userId) {
-//     const result = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
-//         method: "GET", headers: { Authorization: `Bearer ${token}` }
-//     });
+async function getPlaylistId (token, userId) {
+    const result = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+        method: "GET", headers: { Authorization: `Bearer ${token}` }
+    });
 
-//     const data = await result.json();
-//     return data.items;
-// }
-
-// async function getFeatures (token, idse) {
-//     const result = await fetch(`https://api.spotify.com/v1/audio_features?ids=${idse}`, {
-//         method: "GET", headers: { Authorization: `Bearer ${token}` }
-//     });
-
-//     return await result.json();
-// }
+    const data = await result.json();
+    return data.items;
+}
 
 async function getFeatures(accessToken, trackIds) {
     try {

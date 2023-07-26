@@ -1,19 +1,30 @@
 function choosePlaylist (type, itemOne, itemTwo) {
+    let playlist = [];
     switch (type) {
-        case "danceable":
-            return (dancePlaylist(itemOne, itemTwo));
-        case "acoustic":
-            return (acousticPlaylist(itemOne, itemTwo));
-        case "singeable":
-            return (singPlaylist(itemOne, itemTwo));
-        case "happy":
-            return (enthusiasticPlaylist(itemOne, itemTwo));
-        case "sad":
-            return (unenthusiasticPlaylist(itemOne, itemTwo));
-        case "instrumental":
-            return (studyPlaylist(itemOne, itemTwo));
+        case "Danceable":
+            playlist = (dancePlaylist(itemOne, itemTwo));
+            break;
+        case "Acoustic":
+            playlist = (acousticPlaylist(itemOne, itemTwo));
+            break;
+        case "Singeable":
+            playlist = (singPlaylist(itemOne, itemTwo));
+            break;
+        case "Happy":
+            playlist = (enthusiasticPlaylist(itemOne, itemTwo));
+            break;
+        case "Sad":
+            playlist = (unenthusiasticPlaylist(itemOne, itemTwo));
+            break;
+        case "Study":
+            playlist = (studyPlaylist(itemOne, itemTwo));
+            break;
     }
+    const z = 0;
+    return playlist;
 }
+
+
 
 function get_track_ids (trackList) {
     var track_ids = trackList[0];
