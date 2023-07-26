@@ -1,7 +1,5 @@
 function choosePlaylist (type, itemOne, itemTwo) {
     switch (type) {
-        case "energetic":
-            return (energyPlaylist(itemOne, itemTwo));
         case "danceable":
             return (dancePlaylist(itemOne, itemTwo));
         case "acoustic":
@@ -9,14 +7,11 @@ function choosePlaylist (type, itemOne, itemTwo) {
         case "singeable":
             return (singPlaylist(itemOne, itemTwo));
         case "happy":
-            return (happyList(itemOne, itemTwo));
+            return (enthusiasticPlaylist(itemOne, itemTwo));
         case "sad":
-            return (sadList(itemOne, itemTwo));
-        case "fast":
-            return (fastTempo(itemOne, itemTwo));
-        case "slow":
-            return (slowTempo(itemOne, itemTwo));
-        
+            return (unenthusiasticPlaylist(itemOne, itemTwo));
+        case "instrumental":
+            return (studyPlaylist(itemOne, itemTwo));
     }
 }
 
@@ -29,25 +24,17 @@ function get_track_ids (trackList) {
     return track_ids;
 }
 
-function energyPlaylist (playlistJson, top_song_ids) {
-    const playlist = [];
-    const iterations = Math.min(100, playlistJson.length);
-
-    for (let j = 0; j < iterations; j++) {
-        if (playlistJson[j].energy > 0.7) {
-            playlist.push(top_song_ids[j]);
-        }    
-    }
-    return playlist;
-}
-
 function dancePlaylist (playlistJson, top_song_ids) {
     const playlist = [];
     const iterations = Math.min(100, playlistJson.length);
 
     for (let j = 0; j < iterations; j++) {
-        if (playlistJson[j].danceability > 0.7) {
-            playlist.push(top_song_ids[j]);
+        if (playlistJson[j].danceability > 0.5) {
+            if (playlistJson[j].energy > 0.5) {
+                if (playlistJson[j].tempo > 128) {
+                    playlist.push(top_song_ids[j]);
+                }
+            }
         }    
     }
     return playlist;
@@ -66,63 +53,55 @@ function acousticPlaylist(playlistJson, top_song_ids) {
     
 }
 
+function enthusiasticPlaylist (playlistJson, top_song_ids) {
+    const playlist = [];
+    const iterations = Math.min(100, playlistJson.length);
+
+    for (let j = 0; j < iterations; j++) {
+        if (playlistJson[j].energy > 0.65) {
+            if (playlistJson[j].valence > 0.65) {
+                playlist.push(top_song_ids[j]);
+            }
+        }
+    }
+    return playlist;
+}
+
+function unenthusiasticPlaylist (playlistJson, top_song_ids) {
+    const playlist = [];
+    const iterations = Math.min(100, playlistJson.length);
+
+    for (let j = 0; j < iterations; j++) {
+        if (playlistJson[j].energy < 0.35) {
+            if (playlistJson[j].valence < 0.35) {
+                playlist.push(top_song_ids[j]);
+            }
+        }
+    }
+    return playlist;
+}
+
 function singPlaylist (playlistJson, top_song_ids) {
     const playlist = [];
     const iterations = Math.min(100, playlistJson.length);
 
     for (let j = 0; j < iterations; j++) {
-        if (playlistJson[j].speechiness > 0.7) {
+        if (playlistJson[j].speechiness > 0.1) {
             playlist.push(top_song_ids[j]);
         }    
     }
     return playlist;
 }
 
-function happyList (playlistJson, top_song_ids) {
+function studyPlaylist (playlistJson, top_song_ids) {
     const playlist = [];
     const iterations = Math.min(100, playlistJson.length);
-
     for (let j = 0; j < iterations; j++) {
-        if (playlistJson[j].valence > 0.7) {
-            playlist.push(top_song_ids[j]);
-        }    
-    }
-    return playlist;
-    
-}
-
-function sadList (playlistJson, top_song_ids) {
-    const playlist = [];
-    const iterations = Math.min(100, playlistJson.length);
-
-    for (let j = 0; j < iterations; j++) {
-        if (playlistJson[j].valence < 0.3) {
-            playlist.push(top_song_ids[j]);
-        }    
-    }
-    return playlist;
-}
-
-function slowTempo (playlistJson, top_song_ids) {
-    const playlist = [];
-    const iterations = Math.min(100, playlistJson.length);
-
-    for (let j = 0; j < iterations; j++) {
-        if (playlistJson[j].tempo < 90) {
-            playlist.push(top_song_ids[j]);
-        }    
-    }
-    return playlist;
-}
-
-function fastTempo (playlistJson, top_song_ids) {
-    const playlist = [];
-    const iterations = Math.min(100, playlistJson.length);
-
-    for (let j = 0; j < iterations; j++) {
-        if (playlistJson[j].tempo > 140) {
-            playlist.push(top_song_ids[j]);
-        }    
+        if (playlistJson[j].instrumentalness > 0.3) {
+            if (playlistJson[j].energy > 0.3) {
+                playlist.push(top_song_ids[j]);
+            }
+        }
     }
     return playlist;
 }
