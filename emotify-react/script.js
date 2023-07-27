@@ -1,4 +1,4 @@
-const clientId = "2926559360aa4aa6a6200b9828a0dd00"; // Replace with your client ID
+const clientId = "2926559360aa4aa6a6200b9828a0dd00";
 const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
 let accessToken;
