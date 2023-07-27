@@ -2,6 +2,7 @@ html {
   background-color: #191414;
   font-family: "Open Sans", sans-serif;
   color: #1DB954;
+  padding: 40px;
 }
 
 head {
@@ -16,5 +17,77 @@ p {
 }
 
 h1 {
-  align-self: center;
+  font-size: 60px;
+  margin: 0px 0px;
+}
+
+h2 {
+  margin-top: 20px;
+  font-size: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;  
+  color: #ffffff;
+
+}
+
+h3 {
+  margin-top: 60px;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 30px;
+}
+.login {
+  gap: 16px;
+  margin: auto;
+  background-color: #ffffff;
+  width: 360px;
+  height: 90px;
+  padding: 29px 66px;
+  font-size: 25px;
+
+}
+
+.login:hover {
+  background-color: #d8d7d7;
+}
+button {
+  display: flex;
+  padding: 16px 34px;
+  margin: auto;
+  margin-top: 20px;
+  gap: 10px;
+  font-size: 20px;
+  text-align:center;
+  width: 240px;
+  height: 60px;
+  border-radius: 12px;
+  color:#000000;
+  background-color: #1DB954;
+  /* background: linear-gradient(90deg, #f4f4f4 0%, #52ff5e 50.35%, #1DB954 100%);   */
+  font-weight: 600;
+}
+
+.avatar {
+  margin-top: 0px;
+  margin-bottom: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+img {
+  border-radius: 13px;
+}
+
+select {
+  margin-top: 0px;
+  margin-bottom: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }

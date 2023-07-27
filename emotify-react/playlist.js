@@ -24,8 +24,6 @@ function choosePlaylist (type, itemOne, itemTwo) {
     return playlist;
 }
 
-
-
 function get_track_ids (trackList) {
     var track_ids = trackList[0];
     const iterations = Math.min(100, trackList.length);

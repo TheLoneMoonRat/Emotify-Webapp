@@ -1,6 +1,9 @@
-
 function populateUI(profile) {
-    document.getElementById("displayName").innerText = profile.display_name;
+    if (profile.display_name != null) {
+        document.getElementById("displayName").innerText = "Logged in as " + profile.display_name;
+    } else {
+        document.getElementById("displayName").innerText = "Not Currently Logged in";
+    }
     if (profile.images[0]) {
         const profileImage = new Image(200, 200);
         profileImage.src = profile.images[0].url;
