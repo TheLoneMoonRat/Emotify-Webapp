@@ -15,20 +15,18 @@ if (!code) {
     (async () => {
         try {
             accessToken = await getAccessToken(clientId, code);
-            profile = await fetchProfile(accessToken);
-            songList = await fetchTopSongs(accessToken);
-            likedSongs = await fetchLikedSongs(accessToken);
+            profile = await fetchProfile(accessToken, user_id);
+            songList = await fetchTopSongs(accessToken, user_id);
+            likedSongs = await fetchLikedSongs(accessToken, user_id);
             user_id = populateUI(profile);
             top_song_id_uri = populateTopSongs(songList.items);
-            liked_song_id_uri = populateLikedSongs(songList.items);
+            liked_song_id_uri = populateLikedSongs(likedSongs.items);
         } catch (error) {
             console.error("Error:", error);
         }
     })();
 }
 
-
-const the_goods = await getFeatures(accessToken, id_string);
 
 export function redirectAuth () {
     redirectToAuthCodeFlow(clientId);
@@ -40,39 +38,10 @@ export async function generateThePlaylist (type) {
     } else {
         (async () => {
             try {
-                // const likedSongs = await fetchLikedSongs(accessToken);
                 const playlistId = await createPlaylist(accessToken, user_id, `${type} Playlist`, `Playlist of ${type} songs in your top 50`);
-                // const playlistIdTop = await createPlaylist(accessToken, user_id, "Top 50 Songs", "Your statistically most played songs");
-                // const playlistIdLiked = await createPlaylist(accessToken, user_id, "50 Liked Songs", "50 of your liked songs");
                 const id_string = get_track_ids(top_song_id_uri[0]);
                 const the_goods = await getFeatures(accessToken, id_string);
                 const playlist_indexes = choosePlaylist(type, the_goods, top_song_id_uri[1]);
-                if (playlist_indexes.length < 100) {
-                    const id_string = get_track_ids(liked_song)
-                    while (playlist_indexes.length < 100 || g < currentPlaylist.length) {
-                        if (!playlist_indexes.includes(currentPlaylist[g])) {
-                            playlist_indexes.push(currentPlaylist[g]);
-                        }
-                        g+=1;
-                    }
-                    const z = 0;
-                    playlistId = getPlaylistId(accessToken, user_id);
-                    while (playlist_indexes.length < 100 || z < backupPlaylists.length ) {
-                        top_song_id_uri = populateTopSongs(backupPlaylists[z]);
-                        id_string = get_track_ids(song_id_uri[0]);
-                        the_goods = await getFeatures(accessToken, id_string);
-                        const currentPlaylist = choosePlaylist(type, the_goods, top_song_id_uri[1]);
-                        const g = 0;
-                        while (playlist_indexes.length < 100 || g < currentPlaylist.length) {
-                            if (!playlist_indexes.includes(currentPlaylist[g])) {
-                                playlist_indexes.push(currentPlaylist[g]);
-                            }
-                            g+=1;
-                        }
-                        z+=1;
-                    }
-                }
-                // populatePlaylist(accessToken, playlistIdTop, top_song_id_uri[1]);
                 populatePlaylist(accessToken, playlistId, playlist_indexes);
             } catch (error) {
                 console.error("Error:", error);

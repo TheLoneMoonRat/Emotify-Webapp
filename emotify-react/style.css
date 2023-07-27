@@ -14,3 +14,7 @@ head {
 p {
   color: #ffffff;
 }
+
+h1 {
+  align-self: center;
+}
