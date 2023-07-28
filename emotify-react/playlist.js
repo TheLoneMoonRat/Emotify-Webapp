@@ -106,8 +106,8 @@ function studyPlaylist (playlistJson, top_song_ids) {
     const playlist = [];
     const iterations = Math.min(100, playlistJson.length);
     for (let j = 0; j < iterations; j++) {
-        if (playlistJson[j].instrumentalness > 0.3) {
-            if (playlistJson[j].energy > 0.3) {
+        if (playlistJson[j].instrumentalness > 0.2) {
+            if (playlistJson[j].energy > 0.2) {
                 playlist.push(top_song_ids[j]);
             }
         }

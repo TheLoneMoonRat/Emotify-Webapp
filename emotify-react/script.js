@@ -3,6 +3,7 @@ const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
 let accessToken;
 let songList;
+let playlistList;
 let profile;
 let user_id;
 let top_song_id_uri;
@@ -14,6 +15,7 @@ if (!code) {
 } else {
     (async () => {
         try {
+            playlistList = await getPlaylistId(accessToken);
             accessToken = await getAccessToken(clientId, code);
             profile = await fetchProfile(accessToken, user_id);
             songList = await fetchTopSongs(accessToken, user_id);
@@ -39,9 +41,50 @@ export async function generateThePlaylist (type) {
         (async () => {
             try {
                 const playlistId = await createPlaylist(accessToken, user_id, `${type} Playlist`, `Playlist of ${type} songs in your top 50`);
+                const string_id = get_track_ids(liked_song_id_uri[0]);
                 const id_string = get_track_ids(top_song_id_uri[0]);
+                const goods_the = await getFeatures(accessToken, string_id);
                 const the_goods = await getFeatures(accessToken, id_string);
+                const indexes_playlist = choosePlaylist(type, goods_the, liked_song_id_uri[1]);
                 const playlist_indexes = choosePlaylist(type, the_goods, top_song_id_uri[1]);
+                if (Array.isArray(indexes_playlist) && indexes_playlist.length > 0 && playlist_indexes.length < 100) {
+                    for (var i = 0; i < indexes_playlist.length; i++) {
+                        if (playlist_indexes.includes(indexes_playlist[i])) {
+                            
+                        } else {
+                            playlist_indexes.push(indexes_playlist[i]);
+                        }
+                    }
+                    console.log("ALERT ONE");
+                } else {
+                    console.log("ALERT TWO");
+                }
+                // if (Array.isArray(playlist_indexes) && playlist_indexes.length > 0 && playlist_indexes.length < 100) {
+                //     var j = 0;
+                //     while (playlist_indexes.length < 100) {
+                //         console.log(j);
+                //         console.log(playlistList[j].id);
+                //         const currentPlaylist = playlistList[j].id;
+                //         const currentPlaylistSongs = await getTracks(accessToken, currentPlaylist);
+                //         console.log(currentPlaylistSongs[0].track.name);
+                //         const currentPlaylist_id_uri = populateLikedSongs(currentPlaylistSongs);
+                //         const string_of_id = get_track_ids(currentPlaylist_id_uri[0]);
+                //         const indices = choosePlaylist(type, string_of_id, currentPlaylist_id_uri[1]);
+                //         if (Array.isArray(indices) && indices.length > 0 && playlist_indexes.length < 100) {
+                //             for (var q = 0; q < indices.length; q++) {
+                //                 if (playlist_indexes.includes(indices[i])) {
+                                    
+                //                 } else {
+                //                     playlist_indexes.push(indices[i]);
+                //                 }
+                //             }
+                //         }
+                //         j++;
+                //     }
+                //     console.log("ALERT THREE");
+                // } else {
+                //     console.log("ALERT FOUR");
+                // }
                 populatePlaylist(accessToken, playlistId, playlist_indexes);
             } catch (error) {
                 console.error("Error:", error);
@@ -49,6 +92,7 @@ export async function generateThePlaylist (type) {
         })();
     }
 }
+
 export async function redirectToAuthCodeFlow(clientId) {
     const verifier = generateCodeVerifier(128);
     const challenge = await generateCodeChallenge(verifier);
